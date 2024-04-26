@@ -173,3 +173,37 @@ VALUES
 (123, 1, 3, 10),
 (124, 2, 20, 40),
 (124, 3, 15, 40)
+
+
+-- 13. En la Base de Datos Northwind Presentar una lista de Productos que provengan de los Proveedores 1, 3, 5, 7, 9, 11 y 13. 
+-- Además, que el stock de los productos sea mayor o igual a 20 unidades y menor o igual a 60 unidades.
+
+USE Northwind
+
+SELECT * FROM Products
+WHERE SupplierID IN (1, 3, 5, 7, 9, 11, 13) AND UnitsInStock BETWEEN 20 AND 60
+
+
+-- 14. En Northwind. Presentar una lista de Clientes cuyo representante tenga que ver con el Área de Marketing o el Área de Ventas.
+SELECT * FROM Customers
+WHERE ContactTitle = 'Marketing Manager' 
+	OR ContactTitle = 'Sales Representative' 
+	OR ContactTitle = 'Sales Associate' 
+	OR ContactTitle = 'Sales Manager'
+	OR ContactTitle = 'Sales Agent'
+
+
+-- 15. En Northwind. Presentar una lista de los cuatro Países con mayor cantidad de Proveedores.
+SELECT TOP 4 Country "Pais", COUNT(Country) "Proveedores" FROM Suppliers
+GROUP BY Country
+ORDER BY 2 DESC
+
+-- 16. En Northwind presentar una lista de pedidos que se hayan entregado fuera del límite 
+-- programado para la entrega. Mostrar el código del transportista que se encargó de llevar el pedido,
+-- la fecha del pedido, la fecha requerida para se entregue el pedido la diferencia en días que se excedió la entrega.
+SELECT 
+FORMAT(OrderDate, 'dd-MM-yyyy') as [FECHA DE PEDIDO],
+FORMAT(RequiredDate, 'dd-MM-yyyy') AS [FECHA ESTIMADA], 
+FORMAT(ShippedDate, 'dd-MM-yyyy') AS [FECHA DE ENTREGA]
+FROM Orders
+WHERE ShippedDate > RequiredDate
